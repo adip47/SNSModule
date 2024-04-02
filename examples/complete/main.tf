@@ -57,7 +57,7 @@ module "default_sns" {
  
   tags = local.tags
 }
-module "complete_sns" {
+/*module "complete_sns" {
   source = "../../"
 
   name              = local.name
@@ -279,3 +279,4 @@ resource "aws_iam_role" "this" {
 
   tags = local.tags
 }
+*/
