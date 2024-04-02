@@ -1,15 +1,32 @@
 data "aws_caller_identity" "current" {}
-
+ 
 ################################################################################
 # Topic
 ################################################################################
-
+ 
 resource "aws_sns_topic" "this" {
-  count = var.create ? 1 : 0
-
-  name        = var.use_name_prefix ? null : var.name
-  name_prefix = var.use_name_prefix ? var.name : null
-
+#  count = var.create ? 1 : 0
+ 
+#  name        = var.use_name_prefix ? null : var.name
+#  name_prefix = var.use_name_prefix ? var.name : null
+ 
+  count = 1
+#  locals {
+#  region = "us-east-1"
+#  count =4
+# name   = "sns-ex-${basename(path.cwd)}"
+  name = "sns-ex-${var.env_name}-${count.index}"
+ 
+/*  tags = {
+    Name       = local.name
+#    Example    = "complete"
+    Repository = "terraform-aws-modules/terraform-aws-sns"
+  }
+*/
+ 
+#variable "env_name" {
+#default = "dev"
+#}
   application_failure_feedback_role_arn    = try(var.application_feedback.failure_role_arn, null)
   application_success_feedback_role_arn    = try(var.application_feedback.success_role_arn, null)
   application_success_feedback_sample_rate = try(var.application_feedback.success_sample_rate, null)
