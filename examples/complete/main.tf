@@ -1,30 +1,37 @@
 provider "aws" {
   region = local.region
 }
-
+ 
 data "aws_caller_identity" "current" {}
-
+ 
 locals {
-  region = "eu-west-1"
-  name   = "sns-ex-${basename(path.cwd)}"
-
+  region = "us-east-1"
+  count =1
+# name   = "sns-ex-${basename(path.cwd)}"
+#  name = "sns-ex-${var.env_name}-${count.index}"
+ 
   tags = {
-    Name       = local.name
-    Example    = "complete"
-    Repository = "github.com/terraform-aws-modules/terraform-aws-sns"
+#    Name       = local.name
+#    Example    = "complete"
+    Repository = "terraform-aws-modules/terraform-aws-sns"
   }
 }
-
+ 
+variable "env_name" {
+default = "dev"
+}
+ 
 ################################################################################
 # SNS Module
 ################################################################################
-
+ 
 module "default_sns" {
   source = "../../"
-
-  name              = "${local.name}-default"
+ 
+# name              = "${local.name}-default"
   signature_version = 2
-
+ 
+ 
   data_protection_policy = jsonencode(
     {
       Description = "Deny Inbound Address"
@@ -47,10 +54,9 @@ module "default_sns" {
       Version = "2021-06-01"
     }
   )
-
+ 
   tags = local.tags
 }
-
 module "complete_sns" {
   source = "../../"
 
